@@ -1,0 +1,3 @@
+# No Python dependencies required!
+# Just needs Claude Code to be installed and available in your PATH.
+# Install Claude Code from: https://github.com/anthropics/claude-code

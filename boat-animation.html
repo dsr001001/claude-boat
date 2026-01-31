@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Motorboat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #f0f8ff, #e6f2ff);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .boat-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            max-width: 1200px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* ========== KEYFRAME ANIMATIONS ========== */
+
+        @keyframes boat-cruise {
+            from {
+                transform: translateX(-100px);
+            }
+            to {
+                transform: translateX(1200px);
+            }
+        }
+
+        @keyframes boat-bob {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes wave-flow {
+            from {
+                transform: translateX(0px);
+            }
+            to {
+                transform: translateX(-200px);
+            }
+        }
+
+        @keyframes wave-undulate {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes flag-wave {
+            0%, 100% {
+                transform: skewX(-5deg);
+                transform-origin: left center;
+            }
+            50% {
+                transform: skewX(5deg);
+                transform-origin: left center;
+            }
+        }
+
+        @keyframes propeller-spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes splash-fade {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        /* ========== ANIMATION CLASSES ========== */
+
+        .boat-animate {
+            will-change: transform;
+            animation: boat-cruise 20s linear infinite, boat-bob 3s ease-in-out infinite;
+        }
+
+        .waves-animate {
+            will-change: transform;
+            animation: wave-flow 4s linear infinite, wave-undulate 2s ease-in-out infinite;
+        }
+
+        .flag-wave {
+            transform-origin: 0 50%;
+            animation: flag-wave 1.5s ease-in-out infinite;
+        }
+
+        .propeller-spin {
+            transform-origin: 50% 50%;
+            animation: propeller-spin 0.5s linear infinite;
+        }
+
+        .splash {
+            animation: splash-fade 1.5s ease-out infinite;
+        }
+
+        .splash:nth-child(1) { animation-delay: 0s; }
+        .splash:nth-child(2) { animation-delay: 0.3s; }
+        .splash:nth-child(3) { animation-delay: 0.6s; }
+        .splash:nth-child(4) { animation-delay: 0.9s; }
+        .splash:nth-child(5) { animation-delay: 1.2s; }
+        .splash:nth-child(6) { animation-delay: 0.15s; }
+        .splash:nth-child(7) { animation-delay: 0.45s; }
+        .splash:nth-child(8) { animation-delay: 0.75s; }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            svg {
+                max-width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="boat-container">
+        <svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <!-- Sky Gradient -->
+                <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#87ceeb;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#e0f6ff;stop-opacity:1" />
+                </linearGradient>
+
+                <!-- Water Gradient -->
+                <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:0.4" />
+                    <stop offset="100%" style="stop-color:#2a5cb8;stop-opacity:0.6" />
+                </linearGradient>
+
+                <!-- Shadow Filter -->
+                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.2"/>
+                </filter>
+            </defs>
+
+            <!-- Sky Background -->
+            <rect width="1200" height="600" fill="url(#skyGradient)"/>
+
+            <!-- Water Base -->
+            <rect y="350" width="1200" height="250" fill="url(#waterGradient)"/>
+
+            <!-- ========== WAVES ========== -->
+            <g class="waves-animate">
+                <!-- Wave 1 (Large) -->
+                <path d="M 0 380 Q 50 360 100 380 T 200 380 T 300 380 T 400 380 T 500 380 T 600 380 T 700 380 T 800 380 T 900 380 T 1000 380 T 1100 380 T 1200 380 L 1200 420 Q 1150 440 1100 420 T 1000 420 T 900 420 T 800 420 T 700 420 T 600 420 T 500 420 T 400 420 T 300 420 T 200 420 T 100 420 T 0 420 Z" fill="rgba(74, 144, 226, 0.3)" stroke="#4a90e2" stroke-width="2"/>
+
+                <!-- Wave 2 (Medium) -->
+                <path d="M 0 420 Q 40 405 80 420 T 160 420 T 240 420 T 320 420 T 400 420 T 480 420 T 560 420 T 640 420 T 720 420 T 800 420 T 880 420 T 960 420 T 1040 420 T 1120 420 T 1200 420 L 1200 460 Q 1160 475 1120 460 T 1040 460 T 960 460 T 880 460 T 800 460 T 720 460 T 640 460 T 560 460 T 480 460 T 400 460 T 320 460 T 240 460 T 160 460 T 80 460 T 0 460 Z" fill="rgba(74, 144, 226, 0.25)" stroke="#5a9ef5" stroke-width="1.5"/>
+
+                <!-- Wave 3 (Small) -->
+                <path d="M 0 460 Q 30 450 60 460 T 120 460 T 180 460 T 240 460 T 300 460 T 360 460 T 420 460 T 480 460 T 540 460 T 600 460 T 660 460 T 720 460 T 780 460 T 840 460 T 900 460 T 960 460 T 1020 460 T 1080 460 T 1140 460 T 1200 460 L 1200 490 Q 1170 500 1140 490 T 1080 490 T 1020 490 T 960 490 T 900 490 T 840 490 T 780 490 T 720 490 T 660 490 T 600 490 T 540 490 T 480 490 T 420 490 T 360 490 T 300 490 T 240 490 T 180 490 T 120 490 T 60 490 T 0 490 Z" fill="rgba(74, 144, 226, 0.2)" stroke="#6aacff" stroke-width="1"/>
+            </g>
+
+            <!-- ========== BOAT ========== -->
+            <g class="boat-animate" filter="url(#shadow)">
+                <!-- Hull Main Body -->
+                <defs>
+                    <linearGradient id="hullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#1a5490;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0d3a6b;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Hull Shape -->
+                <path d="M 150 300 L 250 280 L 400 275 L 480 278 L 500 290 L 480 310 L 400 315 L 250 320 L 150 318 Z" fill="url(#hullGradient)" stroke="#ffffff" stroke-width="3"/>
+
+                <!-- Hull Accent Stripe -->
+                <path d="M 160 305 L 245 290 L 390 287 L 470 290 L 465 298 L 390 300 L 245 305 Z" fill="#ffffff" opacity="0.6"/>
+
+                <!-- Cabin Base -->
+                <rect x="280" y="260" width="150" height="45" rx="8" fill="rgba(173, 216, 230, 0.5)" stroke="#333333" stroke-width="2"/>
+
+                <!-- Windshield -->
+                <rect x="285" y="255" width="140" height="12" rx="4" fill="rgba(173, 216, 230, 0.8)" stroke="#333333" stroke-width="1.5"/>
+
+                <!-- Windows -->
+                <rect x="295" y="272" width="35" height="28" rx="3" fill="rgba(255, 255, 255, 0.6)" stroke="#333333" stroke-width="1.5"/>
+                <rect x="340" y="272" width="35" height="28" rx="3" fill="rgba(255, 255, 255, 0.6)" stroke="#333333" stroke-width="1.5"/>
+                <rect x="385" y="272" width="35" height="28" rx="3" fill="rgba(255, 255, 255, 0.6)" stroke="#333333" stroke-width="1.5"/>
+
+                <!-- Window Reflections -->
+                <rect x="298" y="275" width="10" height="8" fill="rgba(255, 255, 255, 0.9)" opacity="0.7" rx="1"/>
+                <rect x="343" y="275" width="10" height="8" fill="rgba(255, 255, 255, 0.9)" opacity="0.7" rx="1"/>
+                <rect x="388" y="275" width="10" height="8" fill="rgba(255, 255, 255, 0.9)" opacity="0.7" rx="1"/>
+
+                <!-- Motor Block -->
+                <rect x="450" y="290" width="40" height="35" fill="#333333" stroke="#555555" stroke-width="2"/>
+
+                <!-- Motor Details -->
+                <rect x="460" y="295" width="20" height="10" fill="#555555"/>
+                <rect x="460" y="310" width="20" height="10" fill="#555555"/>
+
+                <!-- Propeller -->
+                <g class="propeller-spin">
+                    <line x1="490" y1="307" x2="510" y2="307" stroke="#cccccc" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="500" y1="297" x2="500" y2="317" stroke="#cccccc" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="500" cy="307" r="3" fill="#888888"/>
+                </g>
+
+                <!-- Flag Pole -->
+                <line x1="310" y1="255" x2="310" y2="190" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+
+                <!-- Flag -->
+                <path class="flag-wave" d="M 310 195 L 350 180 Q 360 190 350 200 L 310 205 Z" fill="#ff4444" stroke="#cc0000" stroke-width="1.5"/>
+
+                <!-- Flag Shine -->
+                <ellipse cx="325" cy="192" rx="12" ry="8" fill="rgba(255, 255, 255, 0.3)"/>
+            </g>
+
+            <!-- ========== SPLASHES ========== -->
+            <g id="splashes">
+                <circle cx="480" cy="320" r="8" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="520" cy="330" r="6" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="450" cy="335" r="7" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="540" cy="325" r="5" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="460" cy="345" r="6" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="510" cy="350" r="7" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="480" cy="355" r="5" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+                <circle cx="530" cy="340" r="6" class="splash" fill="rgba(255, 255, 255, 0.7)"/>
+            </g>
+
+            <!-- Title (optional, can be removed) -->
+            <text x="600" y="550" text-anchor="middle" font-size="24" fill="#1a5490" font-weight="bold" opacity="0.3">Motorboat Animation</text>
+        </svg>
+    </div>
+</body>
+</html>
